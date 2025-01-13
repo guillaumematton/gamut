@@ -1,0 +1,36 @@
+loadkeys fr
+ping youtube.com
+timedatectl set-timezone Europe/Paris
+fdisk -l -> find the 25GB disk
+fdsk diskname
+o
+n
+e
+3
+  -> yes just hit enter
++400M
+t
+ef
+n
+e
+4
+
++500M
+t
+4
+82
+n
+p
+2
+
++5G
+n
+p
+1
+
+
+w
+note : linux swap = 82
+note : linux main = 83
+note : EFI = ef
+mkswap /dev/sda4 -L Swap
