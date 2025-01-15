@@ -1,33 +1,12 @@
 loadkeys fr
 ping youtube.com
 timedatectl set-timezone Europe/Paris
-fdisk -l -> find the 25GB disk
-fdsk diskname
-o
-n
-p
-3
-  -> yes just hit enter
-+400M
-n
-e
-4
-
-+500M
-t
-4
-82
-n
-p
-2
-
-+5G
-n
-p
-1
-
-
-w
+pvcreate /dev/sda
+vgcreate Phys1 /dev/sda
+lvcreate -L 400M Phys1 -n boot
+lvcreate -L 500M Phys1 -n swap
+lvcreate -L 5G Phys1 -n home
+lvcreate -L 15G Phys1 -n root
 note : linux swap = 82
 note : linux main = 83
 mkswap /dev/sda4 -L swap
