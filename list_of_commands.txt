@@ -5,12 +5,10 @@ fdisk -l -> find the 25GB disk
 fdsk diskname
 o
 n
-e
+p
 3
   -> yes just hit enter
 +400M
-t
-ef
 n
 e
 4
@@ -32,5 +30,8 @@ p
 w
 note : linux swap = 82
 note : linux main = 83
-note : EFI = ef
-mkswap /dev/sda4 -L Swap
+mkswap /dev/sda4 -L swap
+mke2fs /dev/sda3 -L boot
+mkfs.ext4 /dev/sda1 -L root
+mkfs.ext4 /dev/sda2 -L home
+
