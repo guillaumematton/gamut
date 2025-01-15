@@ -7,10 +7,9 @@ lvcreate -L 400M Phys1 -n boot
 lvcreate -L 500M Phys1 -n swap
 lvcreate -L 5G Phys1 -n home
 lvcreate -L 15G Phys1 -n root
-note : linux swap = 82
-note : linux main = 83
-mkswap /dev/sda4 -L swap
-mke2fs /dev/sda3 -L boot
-mkfs.ext4 /dev/sda1 -L root
-mkfs.ext4 /dev/sda2 -L home
-
+mkswap /dev/Phys1/swap -L swap
+mkfs.ext2 /dev/Phys1/boot -L boot
+mkfs.ext4 /dev/Phys1/root -L root
+mkfs.ext4 /dev/Phys1/home -L home
+mount /dev/Phys1/root /mnt
+swapon /dev/Phys1/swap
