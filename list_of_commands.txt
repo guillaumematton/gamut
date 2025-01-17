@@ -24,4 +24,15 @@ pacman -S lvm2
 pacman -S emacs
 pacman -S man-db man-pages texinfo
 pacman -S intel-ucode or amd-ucode (chose depending on your CPU)
+/etc/locale.conf
 emacs /etc/locale.gen (and remove '#' in front of any en_US)
+emacs /etc/locale.conf (creating the file and write LANG=en_US.UTF-8 in it)
+emacs /etc/vsconsole.conf (same as above but write KEYMAP=fr)
+mkinitcpio -P (because we use LVM)
+passwd (I put default password as ROOT for now so type it twice)
+groupadd Hogwarts
+groupadd asso
+groupadd managers
+useradd turban -g asso -G Hogwarts
+useradd dumbledore -g managers -G Hogwarts (everything related to users are now done)
+(next step = grub)
