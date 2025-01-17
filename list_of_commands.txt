@@ -13,3 +13,15 @@ mkfs.ext4 /dev/Phys1/root -L root
 mkfs.ext4 /dev/Phys1/home -L home
 mount /dev/Phys1/root /mnt
 swapon /dev/Phys1/swap
+mount --mkdir /dev/Phys1/boot /mnt/boot
+mount --mkdir /dev/Phys1/home /mnt/home
+pacstrap -K /mnt base linux linux-firmware
+genfstab -U /mnt >> /mnt/etc/fstab
+arch-chroot /mnt
+ln -sf /usr/share/zoneinfo/Region/City /etc/localtime
+hwclock --systohc
+pacman -S lvm2
+pacman -S emacs
+pacman -S man-db man-pages texinfo
+pacman -S intel-ucode or amd-ucode (chose depending on your CPU)
+emacs /etc/locale.gen (and remove '#' in front of any en_US)
