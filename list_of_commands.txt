@@ -1,19 +1,33 @@
 loadkeys fr
 ping youtube.com
 timedatectl set-timezone Europe/Paris
-pvcreate /dev/sda
-vgcreate Phys1 /dev/sda
+fdisk /dev/sda
+n
+e
+4
++500M
+t
+ef
+n
+P
+1
++21G
+w
+pvcreate /dev/sda1
+vgcreate Phys1 /dev/sda1
 lvcreate -L 400M Phys1 -n boot
 lvcreate -L 500M Phys1 -n swap
 lvcreate -L 5G Phys1 -n home
 lvcreate -L 15G Phys1 -n root
 mkswap /dev/Phys1/swap -L swap
-mkfs.ext2 /dev/Phys1/boot -L boot
+mkfs.ext4 /dev/Phys1/boot -L boot
 mkfs.ext4 /dev/Phys1/root -L root
 mkfs.ext4 /dev/Phys1/home -L home
+mkfs.fat -F 32 /dev/sda4
 mount /dev/Phys1/root /mnt
 swapon /dev/Phys1/swap
 mount --mkdir /dev/Phys1/boot /mnt/boot
+mount --mkdir /dev/sda4 /mnt/esp
 mount --mkdir /dev/Phys1/home /mnt/home
 pacstrap -K /mnt base linux linux-firmware
 genfstab -U /mnt >> /mnt/etc/fstab
@@ -24,15 +38,20 @@ pacman -S lvm2
 pacman -S emacs
 pacman -S man-db man-pages texinfo
 pacman -S intel-ucode or amd-ucode (chose depending on your CPU)
-/etc/locale.conf
+locale-gen
 emacs /etc/locale.gen (and remove '#' in front of any en_US)
 emacs /etc/locale.conf (creating the file and write LANG=en_US.UTF-8 in it)
 emacs /etc/vsconsole.conf (same as above but write KEYMAP=fr)
+emacs /etc/mkinitcpio.conf (add lvm at hook)
 mkinitcpio -P (because we use LVM)
 passwd (I put default password as ROOT for now so type it twice)
+pacman -S grub efibootmgr
 groupadd Hogwarts
 groupadd asso
 groupadd managers
 useradd turban -g asso -G Hogwarts
 useradd dumbledore -g managers -G Hogwarts (everything related to users are now done)
-(next step = grub)
+grub-install --target=x86_64-efi --efi-directory=esp --bootloader-id=GRUB --modules="lvm" --disable-shim-lock (allowing secure boot)
+pacman -S sddm konsole plasma sddm-kcm
+exit
+reboot
