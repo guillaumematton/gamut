@@ -12,6 +12,9 @@ n
 P
 1
 +21G
+p
+2
++35G
 w
 pvcreate /dev/sda1
 vgcreate Phys1 /dev/sda1
@@ -54,9 +57,22 @@ useradd -m -g managers -G Hogwarts dumbledore
 echo "dumbledore:dumbledore" | chpasswd
 echo "turban:turban" | chpasswd(everything related to users are now done)
 grub-install --target=x86_64-efi --efi-directory=esp --bootloader-id=GRUB --modules="lvm" --disable-shim-lock (allowing secure boot)
-pacman -S sddm konsole plasma sddm-kcm
+grub-mkconfig -o /boot/grub/grub.cfg
+pacman -S sddm konsole plasma sddm-kcm kde-applications
 systemctl enable sddm
+systemctl enable NetworkManager
+pvcreate /dev/sda2
+vgcreate parrot /dev/sda2
+lvcreate -L 500M parrot -n swap
+lvcreate -L 500M parrot -n boot
+lvcreate -L 5G parrot -n home
+lvcreate -L 25G parrot -n root
+mkfs.ext4 /dev/parrot/root -L root
+mkfs.ext4 /dev/parrot/boot -L boot
+mkfs.ext4 /dev/parrot/home -L home
+mkswap /dev/parrot/swap -L swap
 exit
 reboot
-systemctl start NetworkManager.service
-nmcli connection up "Wired connection 1"
+pacman -S os-prober
+mount /dev/parrot/root /mnt
+grub-mkconfig -o /boot/grub/grub.cfg
