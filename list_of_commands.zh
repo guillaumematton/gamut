@@ -11,7 +11,7 @@ p\n\
 1\n\n\
 +21G\n\
 p\n\
-2\n\
+2\n\n\
 +35G\n\
 w" | fdisk /dev/sda
 pvcreate /dev/sda1
