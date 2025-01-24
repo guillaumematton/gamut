@@ -44,7 +44,7 @@ mkswap /dev/parrot/swap -L swap
 pacstrap -K /mnt base linux linux-firmware
 genfstab -U /mnt >> /mnt/etc/fstab
 arch-chroot /mnt << EOF
-ln -sf /usr/share/zoneinfo/Region/City /etc/localtime
+ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
 hwclock --systohc
 pacman --noconfirm -S lvm2 emacs man-db man-pages texinfo intel-ucode
 locale-gen
