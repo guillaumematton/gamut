@@ -1,5 +1,4 @@
 loadkeys fr
-ping youtube.com
 timedatectl set-timezone Europe/Paris
 echo -e "n\n\
 e\n\
