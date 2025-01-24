@@ -1,21 +1,20 @@
 loadkeys fr
 ping youtube.com
 timedatectl set-timezone Europe/Paris
-fdisk /dev/sda
-n
-e
-4
-+500M
-t
-ef
-n
-P
-1
-+21G
-p
-2
-+35G
-w
+echo -e "n\n\
+e\n\
+4\n\n\
++500M\n\
+t\n\
+ef\n\
+n\n\
+p\n\
+1\n\n\
++21G\n\
+p\n\
+2\n\
++35G\n\
+w" | fdisk /dev/sda
 pvcreate /dev/sda1
 vgcreate Phys1 /dev/sda1
 lvcreate -L 400M Phys1 -n boot
@@ -34,7 +33,7 @@ mount --mkdir /dev/sda4 /mnt/esp
 mount --mkdir /dev/Phys1/home /mnt/home
 pacstrap -K /mnt base linux linux-firmware
 genfstab -U /mnt >> /mnt/etc/fstab
-arch-chroot /mnt
+arch-chroot /mnt << EOF
 ln -sf /usr/share/zoneinfo/Region/City /etc/localtime
 hwclock --systohc
 pacman -S lvm2
@@ -42,11 +41,10 @@ pacman -S emacs
 pacman -S man-db man-pages texinfo
 pacman -S intel-ucode or amd-ucode (chose depending on your CPU)
 locale-gen
-emacs /etc/locale.gen (and remove '#' in front of any en_US)
-emacs /etc/locale.conf (creating the file and write LANG=en_US.UTF-8 in it)
-emacs /etc/vconsole.conf (same as above but write KEYMAP=fr)
-emacs /etc/mkinitcpio.conf (add lvm at hook)
-mkinitcpio -P (because we use LVM)
+echo "LANG=en_US.UTF-8" > /etc/locale.conf
+echo "KEYMAP=fr" > /etc/vconsole.conf
+sed -i '/^HOOKS=(/s/.$. lvm2)/' /etc/mkinitcpio.conf
+mkinitcpio -P
 passwd (I put default password as ROOT for now so type it twice)
 pacman -S grub efibootmgr
 groupadd Hogwarts
@@ -55,10 +53,13 @@ groupadd managers
 useradd -m -g asso -G Hogwarts turban
 useradd -m -g managers -G Hogwarts dumbledore 
 echo "dumbledore:dumbledore" | chpasswd
-echo "turban:turban" | chpasswd(everything related to users are now done)
-grub-install --target=x86_64-efi --efi-directory=esp --bootloader-id=GRUB --modules="lvm" --disable-shim-lock (allowing secure boot)
+echo "turban:turban" | chpasswd
+grub-install --target=x86_64-efi --efi-directory=esp --bootloader-id=GRUB --modules="lvm" --disable-shim-lock
+sed -i 'GRUB_PRELOAD_MODULES="/s/.$/ lvm"/" /etc/default/grub
+sed -i '/#GRUB_DISABLE_OS_PROBER/s/^#//' /etc/default/grub
 grub-mkconfig -o /boot/grub/grub.cfg
 pacman -S sddm konsole plasma sddm-kcm kde-applications
+pacman -S os-prober
 systemctl enable sddm
 systemctl enable NetworkManager
 pvcreate /dev/sda2
@@ -72,7 +73,7 @@ mkfs.ext4 /dev/parrot/boot -L boot
 mkfs.ext4 /dev/parrot/home -L home
 mkswap /dev/parrot/swap -L swap
 exit
+EOF
 reboot
-pacman -S os-prober
 mount /dev/parrot/root /mnt
 grub-mkconfig -o /boot/grub/grub.cfg
