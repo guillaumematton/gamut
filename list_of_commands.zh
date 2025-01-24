@@ -36,17 +36,14 @@ genfstab -U /mnt >> /mnt/etc/fstab
 arch-chroot /mnt << EOF
 ln -sf /usr/share/zoneinfo/Region/City /etc/localtime
 hwclock --systohc
-pacman -S lvm2
-pacman -S emacs
-pacman -S man-db man-pages texinfo
-pacman -S intel-ucode or amd-ucode (chose depending on your CPU)
+pacman --noconfirm -S lvm2 emacs man-db man-pages texinfo intel-ucode
 locale-gen
 echo "LANG=en_US.UTF-8" > /etc/locale.conf
 echo "KEYMAP=fr" > /etc/vconsole.conf
 sed -i '/^HOOKS=(/s/.$. lvm2)/' /etc/mkinitcpio.conf
 mkinitcpio -P
 echo "root:root" | chpasswd
-pacman -S grub efibootmgr
+pacman --noconfirm -S grub efibootmgr
 groupadd Hogwarts
 groupadd asso
 groupadd managers
@@ -55,7 +52,7 @@ useradd -m -g managers -G Hogwarts dumbledore
 echo "dumbledore:dumbledore" | chpasswd
 echo "turban:turban" | chpasswd
 grub-install --target=x86_64-efi --efi-directory=esp --bootloader-id=GRUB --modules="lvm" --disable-shim-lock
-pacman -S os-prober
+pacman --noconfirm -S os-prober
 sed -i '/^GRUB_PRELOAD_MODULES="/s/.$/ lvm"/" /etc/default/grub
 sed -i '/#GRUB_DISABLE_OS_PROBER/s/^#//' /etc/default/grub
 grub-mkconfig -o /boot/grub/grub.cfg
