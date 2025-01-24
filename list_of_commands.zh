@@ -55,11 +55,11 @@ useradd -m -g managers -G Hogwarts dumbledore
 echo "dumbledore:dumbledore" | chpasswd
 echo "turban:turban" | chpasswd
 grub-install --target=x86_64-efi --efi-directory=esp --bootloader-id=GRUB --modules="lvm" --disable-shim-lock
-sed -i 'GRUB_PRELOAD_MODULES="/s/.$/ lvm"/" /etc/default/grub
+pacman -S os-prober
+sed -i '/^GRUB_PRELOAD_MODULES="/s/.$/ lvm"/" /etc/default/grub
 sed -i '/#GRUB_DISABLE_OS_PROBER/s/^#//' /etc/default/grub
 grub-mkconfig -o /boot/grub/grub.cfg
 pacman -S sddm konsole plasma sddm-kcm kde-applications
-pacman -S os-prober
 systemctl enable sddm
 systemctl enable NetworkManager
 pvcreate /dev/sda2
