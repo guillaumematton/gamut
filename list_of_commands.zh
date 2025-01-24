@@ -45,7 +45,7 @@ echo "LANG=en_US.UTF-8" > /etc/locale.conf
 echo "KEYMAP=fr" > /etc/vconsole.conf
 sed -i '/^HOOKS=(/s/.$. lvm2)/' /etc/mkinitcpio.conf
 mkinitcpio -P
-passwd (I put default password as ROOT for now so type it twice)
+echo "root:root" | chpasswd
 pacman -S grub efibootmgr
 groupadd Hogwarts
 groupadd asso
