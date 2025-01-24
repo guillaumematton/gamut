@@ -1,7 +1,7 @@
 loadkeys fr
 timedatectl set-timezone Europe/Paris
 echo -e "n\n\
-e\n\
+p\n\
 4\n\n\
 +500M\n\
 t\n\
