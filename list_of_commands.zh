@@ -71,4 +71,3 @@ systemctl enable sddm
 systemctl enable NetworkManager
 exit
 EOF
-reboot
