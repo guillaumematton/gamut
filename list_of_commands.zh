@@ -43,11 +43,11 @@ mkfs.ext4 /dev/parrot/home -L home
 mkswap /dev/parrot/swap -L swap
 pacstrap -K /mnt base linux linux-firmware
 genfstab -U /mnt >> /mnt/etc/fstab
-sed -i '/^HOOKS=(/s/.$/ lvm2)/' /mnt/etc/mkinitcpio.conf
 arch-chroot /mnt << EOF
 ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
 hwclock --systohc
 pacman --noconfirm -S lvm2 emacs man-db man-pages texinfo intel-ucode
+sed -i '/^HOOKS=(/s/.$/ lvm2)/' /etc/mkinitcpio.conf
 locale-gen
 echo "LANG=en_US.UTF-8" > /etc/locale.conf
 echo "KEYMAP=fr" > /etc/vconsole.conf
