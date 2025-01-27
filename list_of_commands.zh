@@ -66,8 +66,9 @@ grub-mkconfig -o /boot/grub/grub.cfg
 pacman --noconfirm -S os-prober
 sed -i '/^GRUB_PRELOAD_MODULES="/s/.$/ lvm"/' /etc/default/grub
 sed -i '/#GRUB_DISABLE_OS_PROBER/s/^#//' /etc/default/grub
-pacman --noconfirm -S sddm konsole plasma sddm-kcm kde-applications
+pacman --noconfirm -S sddm-kcm kde-applications
 systemctl enable sddm
 systemctl enable NetworkManager
 exit
 EOF
+reboot
