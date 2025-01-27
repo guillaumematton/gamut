@@ -46,8 +46,8 @@ genfstab -U /mnt >> /mnt/etc/fstab
 arch-chroot /mnt << EOF
 ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
 hwclock --systohc
-pacman --noconfirm -S lvm2 emacs man-db man-pages texinfo intel-ucode
 sed -i '/^HOOKS=(/s/.$/ lvm2)/' /etc/mkinitcpio.conf
+pacman --noconfirm -S lvm2 emacs man-db man-pages texinfo intel-ucode
 locale-gen
 echo "LANG=en_US.UTF-8" > /etc/locale.conf
 echo "KEYMAP=fr" > /etc/vconsole.conf
