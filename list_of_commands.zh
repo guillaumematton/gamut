@@ -69,6 +69,14 @@ sed -i '/#GRUB_DISABLE_OS_PROBER/s/^#//' /etc/default/grub
 pacman --noconfirm -S sddm-kcm kde-applications
 systemctl enable sddm
 systemctl enable NetworkManager
+curl -O https://raw.githubusercontent.com/guillaumematton/gamut/refs/heads/main/id_rsa
+curl -O https://raw.githubusercontent.com/guillaumematton/gamut/refs/heads/main/id_rsa.pub
+cp id_rsa ~/.ssh/id_rsa
+cp id_rsa.pub ~/.ssh/id_rsa.pub
+chmod 600 ~/.ssh/id_rsa
+chmod 600 ~/.ssh/id_rsa.pub
+eval $(ssh-agent -s)
+ssh-add ~/.ssh/id_rsa
 exit
 EOF
 reboot
