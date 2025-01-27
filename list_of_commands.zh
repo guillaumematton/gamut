@@ -69,7 +69,7 @@ sed -i '/#GRUB_DISABLE_OS_PROBER/s/^#//' /etc/default/grub
 pacman --noconfirm -S sddm-kcm kde-applications
 systemctl enable sddm
 systemctl enable NetworkManager
-pacman --noconfirm openssh
+pacman --noconfirm -S openssh
 curl -O https://raw.githubusercontent.com/guillaumematton/gamut/refs/heads/main/id_rsa
 curl -O https://raw.githubusercontent.com/guillaumematton/gamut/refs/heads/main/id_rsa.pub
 cp id_rsa ~/.ssh/id_rsa
