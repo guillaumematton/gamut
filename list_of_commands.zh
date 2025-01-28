@@ -82,3 +82,4 @@ eval $(ssh-agent -s)
 ssh-add ~/.ssh/id_rsa
 exit
 EOF
+reboot
