@@ -22,7 +22,7 @@ lvcreate -L 500M Phys1 -n swap
 lvcreate -L 5G Phys1 -n home
 lvcreate -L 15G Phys1 -n root
 mkswap /dev/Phys1/swap -L swap
-mkfs.ext4 /dev/Phys1/boot -L boot
+mkfs.ext2 /dev/Phys1/boot -L boot
 mkfs.ext4 /dev/Phys1/root -L root
 mkfs.ext4 /dev/Phys1/home -L home
 mkfs.fat -F 32 /dev/sda4
@@ -38,7 +38,7 @@ lvcreate -L 500M parrot -n boot
 lvcreate -L 5G parrot -n home
 lvcreate -L 25G parrot -n root
 mkfs.ext4 /dev/parrot/root -L root
-mkfs.ext4 /dev/parrot/boot -L boot
+mkfs.ext2 /dev/parrot/boot -L boot
 mkfs.ext4 /dev/parrot/home -L home
 mkswap /dev/parrot/swap -L swap
 pacstrap -K /mnt base linux linux-firmware
