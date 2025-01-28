@@ -44,7 +44,8 @@ mkswap /dev/parrot/swap -L swap
 pacstrap -K /mnt base linux linux-firmware
 genfstab -U /mnt >> /mnt/etc/fstab
 arch-chroot /mnt << EOF
-pacman -Syu
+pacman --noconfirm -Syu
+pacman --noconfirm -Sy archlinux-keyring
 ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
 hwclock --systohc
 sed -i '/^HOOKS=(/s/.$/ lvm2)/' /etc/mkinitcpio.conf
@@ -67,7 +68,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 pacman --noconfirm -S os-prober
 sed -i '/^GRUB_PRELOAD_MODULES="/s/.$/ lvm"/' /etc/default/grub
 sed -i '/#GRUB_DISABLE_OS_PROBER/s/^#//' /etc/default/grub
-pacman --noconfirm -S sddm-kcm kde-applications
+pacman --noconfirm -S sddm-kcm kde-applications plasma
 systemctl enable sddm
 systemctl enable NetworkManager
 pacman --noconfirm -S openssh
