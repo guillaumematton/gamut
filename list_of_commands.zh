@@ -80,6 +80,8 @@ chmod 600 ~/.ssh/id_rsa
 chmod 600 ~/.ssh/id_rsa.pub
 eval $(ssh-agent -s)
 ssh-add ~/.ssh/id_rsa
+localectl set-keymap fr fr-oss
+localectl set-x11-keymap --no-convert "fr" "pc105" "fr-oss"
 exit
 EOF
 reboot
