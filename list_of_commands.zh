@@ -44,6 +44,7 @@ mkswap /dev/parrot/swap -L swap
 pacstrap -K /mnt base linux linux-firmware
 genfstab -U /mnt >> /mnt/etc/fstab
 arch-chroot /mnt << EOF
+pacman -Syu
 ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
 hwclock --systohc
 sed -i '/^HOOKS=(/s/.$/ lvm2)/' /etc/mkinitcpio.conf
